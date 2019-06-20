@@ -27,6 +27,10 @@ export class TableComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * @name validateElementSelection
+   * @description validations that allows the navigation between element types sections.
+   */
   public validateElementSelection() {
     switch (this.elementType) {
       case 'Productos':
@@ -59,14 +63,26 @@ export class TableComponent implements OnInit {
     }
   }
 
+  /**
+   * @name hasProviders
+   * @description returns true if there is at least one provider on the list.
+   */
   public get hasProviders() {
     return this._providersService.getProviders().length > 0;
   }
 
+  /**
+   * @name hasProducts
+   * @description returns true if there is at least one product on the list.
+   */
   public get hasProducts() {
     return this._productsService.getProducts().length > 0;
   }
 
+  /**
+   * @name hasStores
+   * @description returns true if there is at least one store on the list.
+   */
   public get hasStores() {
     return this._storesService.getStores().length > 0;
   }

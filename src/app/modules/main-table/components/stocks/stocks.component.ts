@@ -102,8 +102,8 @@ export class StocksComponent implements OnInit {
   public confirm(element: FormGroup) {
     if (element.valid) {
       this._productsService.addQuantity(element.value.productId, element.value.oldProductsQuantity);
-      element.get('oldProductsQuantity').setValue(element.value.productsQuantity);
       if (this.validQuantity(element.value.productId, element.value.productsQuantity)) {
+        element.get('oldProductsQuantity').setValue(element.value.productsQuantity);
         const payload = element.value;
         delete payload.edit;
         delete payload.oldProductsQuantity;
