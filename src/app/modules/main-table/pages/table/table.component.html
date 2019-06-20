@@ -1,0 +1,26 @@
+<div class="row justify-content-start">
+    <div class="col-5">
+        <div class="row justify-content-between">
+            <label class="form-label col-5">
+                Tipo de elemento
+            </label>
+            <select class="form-control col-6" [(ngModel)]="elementType" (ngModelChange)="validateElementSelection()">
+                <option *ngFor="let element of elementTypes" [value]="element">{{element}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 mt-5">
+        <ng-template [ngIf]="elementType === 'Productos' && hasProviders">
+            <app-products></app-products>
+        </ng-template>
+        <ng-template [ngIf]="elementType === 'Proveedores'">
+            <app-providers></app-providers>
+        </ng-template>
+        <ng-template [ngIf]="elementType === 'Tiendas'">
+            <app-stores></app-stores>
+        </ng-template>
+        <ng-template [ngIf]="elementType === 'Inventarios' && hasProducts && hasStores">
+            <app-stocks></app-stocks>
+        </ng-template>
+    </div>
+</div>

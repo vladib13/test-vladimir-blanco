@@ -1,0 +1,65 @@
+<div class="row col-12 mx-0 mb-3 justify-content-end">
+    <button class="btn-create py-2 px-3" (click)="addElement()"><i class="fas fa-plus mr-2"></i>Agregar</button>
+</div>
+
+<form [formGroup]="list">
+    <table class="table table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Cantidad</th>
+                <th style="text-align:center;" scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <ng-template [ngIf]="list.value.list.length> 0">
+            <tbody formArrayName="list" *ngFor="let item of list.get('list').controls | paginate: { itemsPerPage: 5, currentPage: page }; let i = index">
+                <tr [formGroupName]='i'>
+                    <th scope="row">{{item.value.id}}</th>
+                    <td>
+                        <ng-template [ngIf]="item.value.edit">
+                            <input class="form-control" type="text" name="name" id="name" formControlName="name">
+                        </ng-template>
+                        <ng-template [ngIf]="!item.value.edit">
+                            {{item.value.name}}
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-template [ngIf]="item.value.edit">
+                            <select class="form-control" name="providerId" id="providerId" formControlName="providerId">
+                                <option *ngFor="let element of providers" [value]="element.id">{{element.name}}</option>
+                            </select>
+                        </ng-template>
+                        <ng-template [ngIf]="!item.value.edit">
+                            {{providerName(item.value.providerId)}}
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-template [ngIf]="item.value.edit">
+                            <input class="form-control" type="number" name="quantity" id="quantity" formControlName="quantity">
+                        </ng-template>
+                        <ng-template [ngIf]="!item.value.edit">
+                            {{item.value.quantity}}
+                        </ng-template>
+                    </td>
+                    <td class="actions">
+                        <ng-template [ngIf]="!item.value.edit">
+                            <i tooltip="Editar" placement="top" show-delay="100" class="action-btn color-info fas fa-pencil-alt mr-3" (click)="item.get('edit').setValue(true)"></i>
+                            <i tooltip="Eliminar" placement="top" show-delay="100" class="action-btn color-danger fas fa-trash-alt" (click)="deleteElement(i)"></i>
+                        </ng-template>
+                        <ng-template [ngIf]="item.value.edit">
+                            <button class="btn-confirm py-1 px-2" (click)="confirm(item)"><i class="fas fa-check mr-2"></i>Confirmar</button>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </ng-template>
+    </table>
+</form>
+<ng-template [ngIf]="list.value.list.length === 0">
+    <p class="empty-list">Actualmente no contiene registros, puede agregar uno con el botón azul de arriba.</p>
+</ng-template>
+<ng-template [ngIf]="list.value.list.length > 0">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</ng-template>
